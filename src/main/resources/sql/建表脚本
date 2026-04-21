@@ -36,14 +36,3 @@ CREATE TABLE t_sys_user
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     UNIQUE KEY uk_username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统用户表';
-
--- 角色表
-CREATE TABLE t_sys_role
-(
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '角色ID',
-    role_code   VARCHAR(50) NOT NULL COMMENT '角色编码',
-    role_name   VARCHAR(50) NOT NULL COMMENT '角色名称',
-    UNIQUE KEY uk_role_code (role_code)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
-INSERT INTO t_sys_role(role_code, role_name)
-VALUES ('ADMIN','管理员'),('EDITOR','撰稿人'),('REVIEWER','审核员');

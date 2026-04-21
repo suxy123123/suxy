@@ -42,6 +42,7 @@ public class ManuscriptsServiceImpl extends ServiceImpl<ManuscriptsMapper, Manus
     public Result<?> createManuscripts(ManuscriptsVo manuscriptsVo) {
         Manuscripts manuscripts = new Manuscripts();
         BeanUtils.copyProperties(manuscriptsVo,manuscripts);
+        manuscripts.setStatus(ManuscriptStatusEnum.DRAFT.getCode());
         this.save(manuscripts);
         return Result.ok("创建稿件成功！");
     }
@@ -127,7 +128,7 @@ public class ManuscriptsServiceImpl extends ServiceImpl<ManuscriptsMapper, Manus
         reviewRecords.setFromStatus(ManuscriptStatusEnum.DRAFT.getCode());
         reviewRecords.setToStatus(ManuscriptStatusEnum.PENDING_1.getCode());
         reviewRecordsService.save(reviewRecords);
-        return null;
+        return Result.ok("提交成功");
     }
 
     @Override

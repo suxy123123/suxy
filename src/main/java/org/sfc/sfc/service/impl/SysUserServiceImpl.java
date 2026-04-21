@@ -1,14 +1,19 @@
 package org.sfc.sfc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import jakarta.annotation.Resource;
 import org.sfc.sfc.comon.SysRoleEnum;
 import org.sfc.sfc.comon.UserStatusEnum;
 import org.sfc.sfc.entity.SysUser;
 import org.sfc.sfc.mapper.SysUserMapper;
+import org.sfc.sfc.mapper.SysPermissionMapper;
 import org.sfc.sfc.service.SysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -20,13 +25,23 @@ import org.springframework.util.DigestUtils;
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+
+    @Resource
+    private SysPermissionMapper sysPermissionMapper;
+
     @Override
     public SysUser login(String username, String password) {
         String pwd = DigestUtils.md5DigestAsHex(password.getBytes());
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SysUser::getUsername, username)
                 .eq(SysUser::getPassword, pwd);
-        return getOne(wrapper);
+        SysUser user = getOne(wrapper);
+        if (user != null) {
+            // 加载该用户角色对应的权限列表
+            List<String> permissions = sysPermissionMapper.selectPermissionKeysByRoleCode(user.getRoleCode());
+            user.setPermissions(permissions != null ? permissions : Collections.emptyList());
+        }
+        return user;
     }
 
     @Override

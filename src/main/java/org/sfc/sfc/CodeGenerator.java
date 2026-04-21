@@ -9,7 +9,7 @@ public class CodeGenerator
     private static final String URL = "jdbc:mysql://localhost:3306/suxy?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "Su@251485";
-    private static final String TABLE_NAME = "t_sys_user,t_sys_role";
+    private static final String TABLE_NAME = "t_sys_user,t_sys_permission,t_sys_role_permission";
     private static final String PACKAGE = "org.sfc.sfc"; // 包名
     // =========================================================
 

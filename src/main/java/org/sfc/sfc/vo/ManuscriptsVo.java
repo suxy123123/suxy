@@ -44,4 +44,14 @@ public class ManuscriptsVo {
      */
     private Set<ReviewRecordsVo> reviewRecords;
 
+    /**
+     * 创建时间
+     */
+    private java.time.LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    private java.time.LocalDateTime updateTime;
+
 }

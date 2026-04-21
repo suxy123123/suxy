@@ -1,9 +1,7 @@
 package org.sfc.sfc.controller;
 
 import jakarta.annotation.Resource;
-import org.sfc.sfc.annotation.RequireRole;
 import org.sfc.sfc.comon.Result;
-import org.sfc.sfc.comon.SysRoleEnum;
 import org.sfc.sfc.service.ManuscriptsService;
 import org.sfc.sfc.vo.ManuscriptsVo;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +23,9 @@ public class ManuscriptsController {
     /**
      * 创建稿件
      * @param manuscriptsVo 增删查改参数实体
-     *RequireRole控制接口权限，具体角色在SysRoleEnum枚举类
-     *                      这里设置只有【作者】这个角色可以创建
      * @return
      */
     @PostMapping("/createManuscripts")
-    @RequireRole(SysRoleEnum.EDITOR)
     public Result<?> createManuscripts(@RequestBody ManuscriptsVo manuscriptsVo){
 
         return manuscriptsService.createManuscripts(manuscriptsVo);
@@ -43,7 +38,7 @@ public class ManuscriptsController {
      * @param manuscriptsVo 查询参数实体
      * @return
      */
-    @GetMapping("/pageList")
+    @PostMapping("/pageList")
     Result<?> pageList(@RequestParam(defaultValue = "1") Integer pageNum,
                        @RequestParam(defaultValue = "10")Integer pageSize,
                        @RequestBody ManuscriptsVo manuscriptsVo){
@@ -77,6 +72,7 @@ public class ManuscriptsController {
      */
     @PostMapping("/submitPending1")
     Result<?> submitPending1(@RequestParam(required = true) Long id){
+
         return manuscriptsService.submitPending1(id);
     }
 
