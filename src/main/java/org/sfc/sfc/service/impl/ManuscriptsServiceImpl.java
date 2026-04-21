@@ -173,7 +173,7 @@ public class ManuscriptsServiceImpl extends ServiceImpl<ManuscriptsMapper, Manus
         String currStatus = manuscripts.getStatus();
         manuscripts.setStatus(ManuscriptStatusEnum.REJECTED.getCode());
         manuscripts.setRejectReason(manuscriptsVo.getRejectReason());
-        manuscriptsVo.setLastReviewStage(currStatus);
+        manuscripts.setLastReviewStage(currStatus); // 记录上一审核阶段，用于重提
         this.updateById(manuscripts);
 
         //3.新增流转记录

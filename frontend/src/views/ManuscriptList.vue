@@ -382,14 +382,48 @@ const canSubmit = (row) => {
 
 // 权限判断 - 是否可以审核通过
 const canApprove = (row) => {
-  // 拥有审核通过权限且稿件处于待审状态
-  return hasPermission('manuscript:approve') && row.status.startsWith('PENDING_')
+  const role = userInfo.value?.roleCode
+  if (!role) return false
+  // 管理员可以审核所有待审状态的稿件
+  if (role === 'ADMIN' && row.status.startsWith('PENDING_')) {
+    return true
+  }
+  // 一审员只能审核待一审的稿件
+  if (role === 'PENDING_1' && row.status === 'PENDING_1') {
+    return true
+  }
+  // 二审员可以审核待一审和待二审的稿件
+  if (role === 'PENDING_2' && (row.status === 'PENDING_1' || row.status === 'PENDING_2')) {
+    return true
+  }
+  // 三审员可以审核所有待审状态的稿件（权限最高）
+  if (role === 'PENDING_3' && (row.status === 'PENDING_1' || row.status === 'PENDING_2' || row.status === 'PENDING_3')) {
+    return true
+  }
+  return false
 }
 
 // 权限判断 - 是否可以退回
 const canReject = (row) => {
-  // 拥有退回权限且稿件处于待审状态
-  return hasPermission('manuscript:reject') && row.status.startsWith('PENDING_')
+  const role = userInfo.value?.roleCode
+  if (!role) return false
+  // 管理员可以退回所有待审状态的稿件
+  if (role === 'ADMIN' && row.status.startsWith('PENDING_')) {
+    return true
+  }
+  // 一审员只能退回待一审的稿件
+  if (role === 'PENDING_1' && row.status === 'PENDING_1') {
+    return true
+  }
+  // 二审员可以退回待一审和待二审的稿件
+  if (role === 'PENDING_2' && (row.status === 'PENDING_1' || row.status === 'PENDING_2')) {
+    return true
+  }
+  // 三审员可以退回所有待审状态的稿件（权限最高）
+  if (role === 'PENDING_3' && (row.status === 'PENDING_1' || row.status === 'PENDING_2' || row.status === 'PENDING_3')) {
+    return true
+  }
+  return false
 }
 
 // 权限判断 - 是否可以重提

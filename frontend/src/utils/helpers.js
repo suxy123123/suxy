@@ -13,7 +13,8 @@ export const roleMap = {
   ADMIN: '管理员',
   EDITOR: '作者',
   PENDING_1: '一审员',
-  PENDING_2: '二审员'
+  PENDING_2: '二审员',
+  PENDING_3: '三审员'
 }
 
 // 获取状态标签类型

@@ -327,7 +327,10 @@ const canApprove = computed(() => {
   if (role === 'PENDING_1' && manuscript.value.status === 'PENDING_1') {
     return true
   }
-  if (role === 'PENDING_2' && manuscript.value.status === 'PENDING_2') {
+  if (role === 'PENDING_2' && (manuscript.value.status === 'PENDING_1' || manuscript.value.status === 'PENDING_2')) {
+    return true
+  }
+  if (role === 'PENDING_3' && (manuscript.value.status === 'PENDING_1' || manuscript.value.status === 'PENDING_2' || manuscript.value.status === 'PENDING_3')) {
     return true
   }
   return false
@@ -339,7 +342,10 @@ const canReject = computed(() => {
   if (role === 'PENDING_1' && manuscript.value.status === 'PENDING_1') {
     return true
   }
-  if (role === 'PENDING_2' && manuscript.value.status === 'PENDING_2') {
+  if (role === 'PENDING_2' && (manuscript.value.status === 'PENDING_1' || manuscript.value.status === 'PENDING_2')) {
+    return true
+  }
+  if (role === 'PENDING_3' && (manuscript.value.status === 'PENDING_1' || manuscript.value.status === 'PENDING_2' || manuscript.value.status === 'PENDING_3')) {
     return true
   }
   return false

@@ -9,8 +9,7 @@ CREATE TABLE t_sys_user
     role_code   VARCHAR(50) NOT NULL COMMENT '角色编码：ADMIN/EDITOR/REVIEWER',
     status      VARCHAR(20) DEFAULT 'NORMAL' COMMENT '状态：NORMAL/DISABLED',
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    UNIQUE KEY uk_username (username)
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统用户表';
 -- 权限表
 CREATE TABLE t_sys_permission (
@@ -26,6 +25,27 @@ CREATE TABLE t_sys_role_permission (
     permission_key VARCHAR(50) NOT NULL COMMENT '权限标识',
     PRIMARY KEY (role_code, permission_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限关联表';
+
+-- ============================================
+-- 测试账号说明：
+-- ============================================
+-- 用户名: admin        密码: 123456（MD5加密） 角色: 管理员
+-- 用户名: zuozhe       密码: 123456（MD5加密） 角色: 作者（EDITOR）
+-- 用户名: yishenyuan   密码: 123456（MD5加密） 角色: 一审员（PENDING_1）
+-- 用户名: ershenyuan   密码: 123456（MD5加密） 角色: 二审员（PENDING_2）
+-- 用户名: sanshenyuan  密码: 123456（MD5加密） 角色: 三审员（PENDING_3）
+--
+-- 所有账号的密码都是：123456
+-- MD5加密值：e10adc3949ba59abbe56e057f20f883e
+
+INSERT INTO t_sys_user (username, password, real_name, role_code, status) VALUES
+                                                                              ('admin', 'e10adc3949ba59abbe56e057f20f883e', '管理员', 'ADMIN', 'NORMAL'),
+                                                                              ('zuozhe', 'e10adc3949ba59abbe56e057f20f883e', '作者', 'EDITOR', 'NORMAL'),
+                                                                              ('yishenyuan', 'e10adc3949ba59abbe56e057f20f883e', '一审员', 'PENDING_1', 'NORMAL'),
+                                                                              ('ershenyuan', 'e10adc3949ba59abbe56e057f20f883e', '二审员', 'PENDING_2', 'NORMAL'),
+                                                                              ('sanshenyuan', 'e10adc3949ba59abbe56e057f20f883e', '三审员', 'PENDING_3', 'NORMAL');
+
+
 
 -- 初始化权限数据
 INSERT INTO t_sys_permission (permission_name, permission_key) VALUES
@@ -55,3 +75,7 @@ INSERT INTO t_sys_role_permission (role_code, permission_key) VALUES
 -- 二审员权限
 INSERT INTO t_sys_role_permission (role_code, permission_key) VALUES
 ('PENDING_2', 'manuscript:view'), ('PENDING_2', 'manuscript:approve'), ('PENDING_2', 'manuscript:reject');
+
+-- 三审员权限
+INSERT INTO t_sys_role_permission (role_code, permission_key) VALUES
+('PENDING_3', 'manuscript:view'), ('PENDING_3', 'manuscript:approve'), ('PENDING_3', 'manuscript:reject');
