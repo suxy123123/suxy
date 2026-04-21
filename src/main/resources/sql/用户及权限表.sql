@@ -1,3 +1,17 @@
+
+-- 用户表
+CREATE TABLE t_sys_user
+(
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
+    username    VARCHAR(50) NOT NULL COMMENT '账号',
+    password    VARCHAR(100) NOT NULL COMMENT '密码（加密）',
+    real_name   VARCHAR(50) COMMENT '真实姓名',
+    role_code   VARCHAR(50) NOT NULL COMMENT '角色编码：ADMIN/EDITOR/REVIEWER',
+    status      VARCHAR(20) DEFAULT 'NORMAL' COMMENT '状态：NORMAL/DISABLED',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE KEY uk_username (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统用户表';
 -- 权限表
 CREATE TABLE t_sys_permission (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
